@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function CamposLista(props) {
   const Item = ({ item }) => (
-    <div style={{ flexDirection: 'row', display: 'flex', backgroundColor: 'white', marginBottom: 10, borderRadius: 10 }}>
+    <button className={"my-2 flex w-full px-6 py-3 bg-gray-100 border border-gray-400 rounded-lg shadow hover:bg-gray-200"}>
         <div style={{ width: '10%', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
             <Image src="/assets/location.png" alt={"LocationIcon"} width={24} height={24} />
         </div>
@@ -14,11 +14,11 @@ export default function CamposLista(props) {
                 <Image src="/assets/delete.png" alt={"DeleteIcon"} width={24} height={24} />
             </button>
         </div>
-    </div>
+    </button>
   );  
 
   return (
-    <div>
+    <div className={"overflow-auto max-h-"}>
       {
         props.camposBusqueda.map((item) => (
           <Item key={item.id} item={item} />

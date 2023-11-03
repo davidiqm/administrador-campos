@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@turf/turf": "^6.5.0",
     "leaflet": "^1.9.4",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-draw": "^0.20.4"
+    "react-leaflet-draw": "^0.20.4",
+    "sweetalert2": "^11.9.0",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

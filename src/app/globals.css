@@ -4,10 +4,16 @@
 
 .campos-container {
   height: 100vh;
-  width: 20vw;
+  width: 25vw;
+  overflow: auto;
+}
+
+.mapa-container {
+  height: 100vh;
+  width: 75vw;
 }
 
 .leaflet-container {
   height: 100vh;
-  width: 80vw;
+  width: 75vw;
 }

@@ -6,7 +6,9 @@ export default function AgregarButton({setEsFormVisible}) {
   }
   
   return (
-      <button onClick={handleClick} style={{ display: 'flex', overflow: 'hidden', marginBottom: 15 }} className={'form-control'}>
+      <button 
+        onClick={handleClick} 
+        className={'my-2 flex w-full px-6 py-3 bg-gray-100 border border-gray-400 rounded-lg shadow hover:bg-gray-200'}>
           <Image src="/assets/add.png" alt={"LocationIcon"} width={24} height={24} style={{ marginRight: 10 }} />
           <span>Agregar campo</span>
       </button>
