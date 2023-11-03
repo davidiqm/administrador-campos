@@ -71,7 +71,6 @@ export default function HomeView() {
     setEsFormVisible(false)
     setCoordenadas([])
     setAreaCampo(0)
-    getCampos()
     
     const MySwal = withReactContent(Swal)
     MySwal.fire(
@@ -128,7 +127,7 @@ export default function HomeView() {
     getCampos()
     return () => {
     }
-  }, [])
+  }, [esFormVisible])
 
   return (
     <div className="flex">
