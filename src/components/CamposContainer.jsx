@@ -37,7 +37,9 @@ export default function CamposContainer(props) {
             setEsFormVisible={props.setEsFormVisible}
             setCoordenadas={props.setCoordenadas}
             coordenadas={props.coordenadas}
-            addCampo={props.addCampo} />
+            addCampo={props.addCampo}
+            areaCampo={props.areaCampo}
+            setAreaCampo={props.setAreaCampo} />
         }
       </div>
     </div>

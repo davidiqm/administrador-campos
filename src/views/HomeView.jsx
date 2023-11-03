@@ -15,6 +15,7 @@ export default function HomeView() {
   const [descripcion, setDescripcion] = useState("");
   const [coordenadas, setCoordenadas] = useState([]);
   const [esFormVisible, setEsFormVisible] = useState(false);
+  const [areaCampo, setAreaCampo] = useState(0)
 
   const getCampos = async () => {
     let polygon = JSON.parse(localStorage.getItem("campos"))
@@ -39,18 +40,11 @@ export default function HomeView() {
       return
     }
 
-    const poly= {
-      type: 'Polygon',
-      coordinates: [coordenadas]
-    }
-    const area = turf.area(poly)
-    const area2 = area/10000
-
     const campo = {
       id: campos.length + 1,
       nombre: nombre,
       descripcion: descripcion,
-      area: area2,
+      area: areaCampo,
       coordenadas: coordenadas,
     }
 
@@ -135,7 +129,9 @@ export default function HomeView() {
           filter={filter}
           camposBusqueda={camposBusqueda}
           addCampo={addCampo} 
-          deleteCampo={deleteCampo} />
+          deleteCampo={deleteCampo}
+          areaCampo={areaCampo}
+          setAreaCampo={setAreaCampo} />
       </div>
       <div className={"mapa-container"}>
         <Map coordenadas={coordenadas} esFormVisible={esFormVisible} setCoordenadas={setCoordenadas} campos={campos} />

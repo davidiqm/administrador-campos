@@ -40,7 +40,7 @@ export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}
     console.log(poligono)
   }
 
-  const onDelete = (e) => {
+  const onDeleted = (e) => {
     console.log(e)
     setCoordenadas([])
   }
@@ -60,7 +60,7 @@ export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}
               position="topright"
               onCreated={onCreated}
               onEdited={onEdited}
-              onDeleted={onDelete}
+              onDeleted={onDeleted}
               draw={{
                 rectangle: false,
                 polyline: false,
