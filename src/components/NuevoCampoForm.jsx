@@ -1,9 +1,9 @@
 export default function NuevoCampoForm(props) {
   return (
     <div>
-      <input onChange={(e) => props.setNombre(e.target.value)} type="text" placeholder="Nombre del campo" />
-      <input onChange={(e) => props.setDescripcion(e.target.value)} type="text" placeholder="Descripcion" />
       <form>
+        <input onChange={(e) => props.setNombre(e.target.value)} type="text" placeholder="Nombre del campo" />
+        <input onChange={(e) => props.setDescripcion(e.target.value)} type="text" placeholder="Descripcion" />
         <button onClick={props.addCampo} type="button">
           Enviar
         </button>
