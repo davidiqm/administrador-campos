@@ -6,11 +6,6 @@ import 'leaflet-draw/dist/leaflet.draw.css'
 
 export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}) {
   const onCreated = (e) => {
-    if (coordenadas.length > 0) {
-      alert('Ya existe un poligono')
-      return
-    }
-
     const layer = e.layer
     let poligono = []
     
@@ -21,27 +16,22 @@ export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}
     })
 
     setCoordenadas(poligono)
-    console.log(poligono)
   }
 
-  const onEdited = (e) => {
-    console.log(e)
-    const layer = e.layers._layers
-    let poligono = []
-    console.log(layer)
+  // const onEdited = (e) => {
+  //   const layer = e.layers._layers
+  //   let poligono = []
     
-    layer._latlngs[0].forEach(element => {
-      let coord = [element.lat, element.lng]
+  //   layer._latlngs[0].forEach(element => {
+  //     let coord = [element.lat, element.lng]
 
-      poligono.push(coord)
-    })
+  //     poligono.push(coord)
+  //   })
 
-    setCoordenadas(poligono)
-    console.log(poligono)
-  }
+  //   setCoordenadas(poligono)
+  // }
 
   const onDeleted = (e) => {
-    console.log(e)
     setCoordenadas([])
   }
 
@@ -59,7 +49,7 @@ export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}
             <EditControl 
               position="topright"
               onCreated={onCreated}
-              onEdited={onEdited}
+              // onEdited={onEdited}
               onDeleted={onDeleted}
               draw={{
                 rectangle: false,

@@ -3,7 +3,6 @@ import * as turf from '@turf/turf'
 
 const CoordenadasItem = ({coordenadas}) => {
   useEffect(() => {
-    console.log(coordenadas)
     return () => {
     }
   }, [coordenadas])
@@ -33,14 +32,12 @@ const CoordenadasItem = ({coordenadas}) => {
 export default function NuevoCampoForm(props) {
 
   useEffect(() => {
-    console.log(props.areaCampo)
     const poly= {
       type: 'Polygon',
       coordinates: [props.coordenadas]
     }
     const area = turf.area(poly)
 
-    console.log(area)
     props.setAreaCampo(area)
     return () => {
     }

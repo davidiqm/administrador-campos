@@ -5,7 +5,8 @@ import Map from "@/components/Map"
 import CamposContainer from "@/components/CamposContainer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from 'sweetalert2'
-import * as turf from '@turf/turf'
+import { collection, doc, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { db } from '@/utils/firebase';
 
 export default function HomeView() {
   const [campos, setCampos] = useState([]);
@@ -18,14 +19,25 @@ export default function HomeView() {
   const [areaCampo, setAreaCampo] = useState(0)
 
   const getCampos = async () => {
-    let polygon = JSON.parse(localStorage.getItem("campos"))
+    const querySnapshot = await getDocs(collection(db, "campos"))
+    let camposQuery = []
     
-    if (polygon === null || polygon ===undefined) {
-      polygon = []
-    }
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      let campo = {
+        id: doc.id,
+        nombre : data.nombre,
+        descripcion : data.descripcion,
+        area : data.area,
+        coordenadas : JSON.parse(data.coordenadas),
+      }
+
+      camposQuery.push(campo)
+    });
     
-    setCampos(polygon)
-    setCamposBusqueda(polygon)
+    setCampos(camposQuery)
+    setCamposBusqueda(camposQuery)
   }
   
   const addCampo = async () => {
@@ -41,27 +53,32 @@ export default function HomeView() {
     }
 
     const campo = {
-      id: campos.length + 1,
       nombre: nombre,
       descripcion: descripcion,
       area: areaCampo,
-      coordenadas: coordenadas,
+      coordenadas: JSON.stringify(coordenadas),
     }
 
-    campos.push(campo)
+    try {
+      const docRef = await addDoc(collection(db, "campos"), campo);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
 
-    localStorage.setItem("campos", JSON.stringify(campos))
+
+
     setEsFormVisible(false)
     setCoordenadas([])
+    setAreaCampo(0)
+    getCampos()
+    
     const MySwal = withReactContent(Swal)
     MySwal.fire(
       'Creado',
       'Se ha creado el campo exitósamente',
       'success'
-    ).then(async() => {
-      await getCampos()
-    })
-
+    )
   }
 
   const deleteCampo = async (id) => {
@@ -72,25 +89,23 @@ export default function HomeView() {
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
       cancelButtonText: 'Cancelar'
-    }).then(result => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-            const nuevaLista = campos.filter(x => x.id != id)
-            setCampos(nuevaLista)
-            localStorage.setItem("campos", JSON.stringify(nuevaLista))
-            return true
+          await deleteDoc(doc(db, "campos", id));
+          return true
       }
       return false
     }).then(async (resultado) => {
-      console.log(resultado)
       if (resultado) {
         MySwal.fire(
           'Eliminado',
           'Campo eliminado exitósamente',
           'success'
         )
+        
+        await getCampos()
       }
 
-      await getCampos()
     }) 
 
   } 
