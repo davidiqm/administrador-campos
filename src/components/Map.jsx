@@ -1,10 +1,35 @@
 import { MapContainer, TileLayer, Polygon, FeatureGroup } from "react-leaflet"
 import { EditControl } from "react-leaflet-draw"
+import { useMapEvents } from "react-leaflet";
+import { useEffect } from "react";
+import { latLng } from "leaflet";
+
 
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-draw/dist/leaflet.draw.css'
 
-export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}) {
+const Center = ({centro}) => {
+  const map = useMapEvents({})
+  
+
+  useEffect(() => {
+    console.log(centro)
+
+    if (centro != undefined && centro != null) {
+      const coord = latLng({lat: centro[0], lng:centro[1]})
+      map.flyTo(coord, 15)
+    }
+
+    return () => {
+    }
+  }, [centro])
+  
+  return (
+    <div></div>
+  )
+}
+export default function Map({centro, coordenadas, esFormVisible, setCoordenadas, campos}) {
+
   const onCreated = (e) => {
     const layer = e.layer
     let poligono = []
@@ -60,6 +85,7 @@ export default function Map({coordenadas, esFormVisible, setCoordenadas, campos}
               }} />
           </FeatureGroup>
         }
+        <Center centro={centro} />
         {
           campos.map((item) => (
             <Polygon key={item.id} positions={item.coordenadas}></Polygon>

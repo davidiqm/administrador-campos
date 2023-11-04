@@ -5,8 +5,9 @@ import Map from "@/components/Map"
 import CamposContainer from "@/components/CamposContainer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from 'sweetalert2'
-import { collection, doc, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from '@/utils/firebase';
+import * as turf from '@turf/turf'
 
 export default function HomeView() {
   const [campos, setCampos] = useState([]);
@@ -17,6 +18,7 @@ export default function HomeView() {
   const [coordenadas, setCoordenadas] = useState([]);
   const [esFormVisible, setEsFormVisible] = useState(false);
   const [areaCampo, setAreaCampo] = useState(0)
+  const [centro, setCentro] = useState(null)
 
   const getCampos = async () => {
     const querySnapshot = await getDocs(collection(db, "campos"))
@@ -104,10 +106,31 @@ export default function HomeView() {
         
         await getCampos()
       }
-
-    }) 
-
+    })
   } 
+
+  const getCampo = async (id) => {
+    const querySnapshot = await getDoc(doc(db, "campos", id))
+    const data = querySnapshot.data();
+    
+    let campo = {
+      id: querySnapshot.id,
+      nombre : data.nombre,
+      descripcion : data.descripcion,
+      area : data.area,
+      coordenadas : JSON.parse(data.coordenadas),
+    }
+    
+    
+    
+    const poly= {
+      type: 'Polygon',
+      coordinates: [campo.coordenadas]
+    }
+    const center = turf.center(poly)
+    const coord = center.geometry.coordinates 
+    setCentro(coord)
+  }
 
   const filter = (e) => {
     const keyword = e.target.value;
@@ -145,10 +168,11 @@ export default function HomeView() {
           addCampo={addCampo} 
           deleteCampo={deleteCampo}
           areaCampo={areaCampo}
-          setAreaCampo={setAreaCampo} />
+          setAreaCampo={setAreaCampo}
+          getCampo={getCampo} />
       </div>
       <div className={"mapa-container"}>
-        <Map coordenadas={coordenadas} esFormVisible={esFormVisible} setCoordenadas={setCoordenadas} campos={campos} />
+        <Map centro={centro} coordenadas={coordenadas} esFormVisible={esFormVisible} setCoordenadas={setCoordenadas} campos={campos} />
       </div>
     </div>
   )

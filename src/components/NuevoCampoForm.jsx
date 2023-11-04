@@ -37,8 +37,8 @@ export default function NuevoCampoForm(props) {
       coordinates: [props.coordenadas]
     }
     const area = turf.area(poly)
-
-    props.setAreaCampo(area)
+    const areaReal = area/10000
+    props.setAreaCampo(areaReal)
     return () => {
     }
   }, [props.coordenadas])
@@ -63,7 +63,7 @@ export default function NuevoCampoForm(props) {
             placeholder="Inserte descripción..." />
         </div>
         <div className={"mb-3"}>
-          <p className={"font-bold"}>Area: {props.areaCampo}km<sup>2</sup></p>
+          <p className={"font-bold"}>Area: {props.areaCampo}ha</p>
         </div>
         <button
           className={"text-white rounded bg-green-600 w-full p-2.5 mb-3"} 

@@ -26,7 +26,7 @@ export default function CamposContainer(props) {
               type={"text"} 
               placeholder={'Buscar campo...'} />
             <AgregarButton setEsFormVisible={props.setEsFormVisible} />
-            <CamposLista camposBusqueda={props.camposBusqueda} deleteCampo={props.deleteCampo} />
+            <CamposLista camposBusqueda={props.camposBusqueda} deleteCampo={props.deleteCampo} getCampo={props.getCampo} />
           </div>
         }
         {
