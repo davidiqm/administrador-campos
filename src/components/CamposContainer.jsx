@@ -6,12 +6,12 @@ export default function CamposContainer(props) {
   return (
     <div >
       <div className="bg-[#9b56fe] py-10 px-4">
-        <h1 className={"text-3xl font-bold text-white"}>Administrador de Campos</h1>
+        <h1 className={"text-3xl font-bold text-white"}>Administrador de Predios</h1>
         {
           props.esFormVisible &&
           <div>
             <hr className="my-2" />
-            <h2 className={"text-base font-light text-gray-50"}>Crear campo</h2>
+            <h2 className={"text-base font-light text-gray-50"}>Crear predio</h2>
           </div>
         }
       </div>
@@ -24,7 +24,7 @@ export default function CamposContainer(props) {
               value={props.search} 
               onChange={props.filter} 
               type={"text"} 
-              placeholder={'Buscar campo...'} />
+              placeholder={'Buscar predio...'} />
             <AgregarButton setEsFormVisible={props.setEsFormVisible} />
             <CamposLista camposBusqueda={props.camposBusqueda} deleteCampo={props.deleteCampo} getCampo={props.getCampo} />
           </div>

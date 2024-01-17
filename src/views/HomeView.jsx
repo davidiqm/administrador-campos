@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect } from "react"
-import Map from "@/components/Map"
+import { useState, useEffect, useMemo } from "react"
 import CamposContainer from "@/components/CamposContainer";
 import withReactContent from "sweetalert2-react-content";
 import Swal from 'sweetalert2'
 import { collection, doc, addDoc, getDocs, deleteDoc, getDoc } from "firebase/firestore";
 import { db } from '@/utils/firebase';
 import * as turf from '@turf/turf'
+import dynamic from "next/dynamic";
+
 
 export default function HomeView() {
   const [campos, setCampos] = useState([]);
@@ -19,7 +20,15 @@ export default function HomeView() {
   const [esFormVisible, setEsFormVisible] = useState(false);
   const [areaCampo, setAreaCampo] = useState(0)
   const [centro, setCentro] = useState(null)
-
+  
+  const MapNoSSR = useMemo(
+    () => dynamic(() => import("@/components/Map"),
+    { 
+      loading: () => <p>Cargando Mapa...</p>,
+      ssr: false 
+    }), 
+    [])
+  
   const getCampos = async () => {
     const querySnapshot = await getDocs(collection(db, "campos"))
     let camposQuery = []
@@ -77,7 +86,7 @@ export default function HomeView() {
     const MySwal = withReactContent(Swal)
     MySwal.fire(
       'Creado',
-      'Se ha creado el campo exitósamente',
+      'Se ha creado el predio exitosamente',
       'success'
     )
   }
@@ -85,7 +94,7 @@ export default function HomeView() {
   const deleteCampo = async (id) => {
     const MySwal = withReactContent(Swal)
     MySwal.fire({
-      title: '¿Seguro que deseas eliminar el campo?',
+      title: '¿Seguro que deseas eliminar el predio?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Eliminar',
@@ -100,7 +109,7 @@ export default function HomeView() {
       if (resultado) {
         MySwal.fire(
           'Eliminado',
-          'Campo eliminado exitósamente',
+          'Predio eliminado exitosamente',
           'success'
         )
         
@@ -172,7 +181,7 @@ export default function HomeView() {
           getCampo={getCampo} />
       </div>
       <div className={"mapa-container"}>
-        <Map centro={centro} coordenadas={coordenadas} esFormVisible={esFormVisible} setCoordenadas={setCoordenadas} campos={campos} />
+        <MapNoSSR centro={centro} coordenadas={coordenadas} esFormVisible={esFormVisible} setCoordenadas={setCoordenadas} campos={campos} />
       </div>
     </div>
   )
